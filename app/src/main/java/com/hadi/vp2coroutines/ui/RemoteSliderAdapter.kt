@@ -15,17 +15,18 @@ import coil.size.Size
 import coil.transform.Transformation
 import com.hadi.vp2coroutines.R
 import com.hadi.vp2coroutines.databinding.ItemSliderBinding
+import com.hadi.vp2coroutines.utils.PaletteTransformation
 
 class RemoteSliderAdapter(
-    private val context: Context
+    private val context: Context,
 ) : RecyclerView.Adapter<RemoteSliderAdapter.SliderViewHolder>() {
 
-    private var list = mutableListOf<String>()
+//    private var mImageList = mutableListOf<String>()
 
-
-    fun setImages(list: List<String>){
-        this.list.clear()
-        this.list.addAll(list);
+    private var mImageList = emptyList<String>()
+    fun submitList(list: List<String>) {
+        mImageList = list
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderViewHolder {
@@ -35,10 +36,10 @@ class RemoteSliderAdapter(
 
     override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
 //        holder.bind(list[position].toInt())
-        holder.bind(list[position])
+        holder.bind(mImageList[position])
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = mImageList.size
 
     // onItemClickListener
     private var onItemClickListener: ((Int) -> Unit)? = null
@@ -49,38 +50,25 @@ class RemoteSliderAdapter(
     class SliderViewHolder(val binding: ItemSliderBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(url: String) {
-            binding.ivSlider.load(url){
-
-                transformations(object: Transformation {
-                    override fun key() = "paletteTransformer"
-                    override suspend fun transform(
-                        pool: BitmapPool,
-                        input: Bitmap,
-                        size: Size,
-                    ): Bitmap {
-                        val palette = Palette.from(input).generate()
-
+            binding.ivSlider.load(url) {
+                transformations(
+                    PaletteTransformation { palette ->
                         val swatch = palette.vibrantSwatch
-                        Log.d("RemoteAdapter",palette.vibrantSwatch?.rgb.toString())
+                        Log.d("RemoteAdapter", palette.vibrantSwatch?.rgb.toString())
                         if (swatch != null) {
-                            itemView.setBackgroundColor(palette.vibrantSwatch?.rgb ?: ContextCompat.getColor(
-                                itemView.context,
-                                R.color.purple_200
-                            ))
+                            itemView.setBackgroundColor(
+                                palette.vibrantSwatch?.rgb ?: ContextCompat.getColor(
+                                    itemView.context,
+                                    R.color.purple_200
+                                )
+                            )
                         }
-                        return input
                     }
-
-
-                })
+                )
                 crossfade(true)
-
-
 //                transformations(RoundedCornersTransformation(24f))
                 scale(Scale.FIT)
                 build()
-
-
 //                crossfade(750)
 //                placeholder(errorPlaceHolder)
 //                transformations(CircleCropTransformation())

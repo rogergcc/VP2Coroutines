@@ -21,9 +21,11 @@ import coil.load
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import coil.transform.BlurTransformation
-import com.hadi.vp2coroutines.*
+import com.hadi.vp2coroutines.R
 import com.hadi.vp2coroutines.databinding.ActivityMainBinding
 import com.hadi.vp2coroutines.utils.HorizontalMarginItemDecoration
+import com.hadi.vp2coroutines.utils.autoScroll
+import com.hadi.vp2coroutines.utils.setCarouselEffects
 import kotlinx.coroutines.launch
 
 
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         ImageData(13, R.drawable.pngwing_13),
         ImageData(14, R.drawable.pngwing_14)
     )
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
@@ -81,7 +84,8 @@ class MainActivity : AppCompatActivity() {
                 val displayCutout = windowInsets.displayCutout
                 if (displayCutout != null) {
                     val safeInsetTop = displayCutout.safeInsetTop
-                    val newLayoutParams = binding.toolbar.layoutParams as ViewGroup.MarginLayoutParams
+                    val newLayoutParams =
+                        binding.toolbar.layoutParams as ViewGroup.MarginLayoutParams
                     newLayoutParams.setMargins(0, safeInsetTop, 0, 0)
                     binding.toolbar.layoutParams = newLayoutParams
                 }
@@ -174,7 +178,7 @@ class MainActivity : AppCompatActivity() {
                     //endregion
 
 
-                    val colorGenerate= imageListGenerate[position].colorGenerate
+                    val colorGenerate = imageListGenerate[position].colorGenerate
 
                     binding.containerConstraint.setBackgroundColor(colorGenerate)
 
@@ -232,7 +236,6 @@ class MainActivity : AppCompatActivity() {
     data class ImageColorsGenerate(@DrawableRes val imageResGenerate: Int, val colorGenerate: Int)
 
 
-
     fun ImageData.toGenerateColorsDrawableImage(): ImageColorsGenerate {
         val imageSelected = BitmapFactory.decodeResource(
             resources,
@@ -242,9 +245,9 @@ class MainActivity : AppCompatActivity() {
 
 //        val imageSelectedURl = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageResource+"")
 
-        val color= createPaletteSync(imageSelected).vibrantSwatch
+        val color = createPaletteSync(imageSelected).vibrantSwatch
 
-        val colorGenerate= (color?.rgb ?: ContextCompat.getColor(
+        val colorGenerate = (color?.rgb ?: ContextCompat.getColor(
             baseContext,
             R.color.purple_200
         ))
@@ -256,11 +259,12 @@ class MainActivity : AppCompatActivity() {
 
         )
     }
-    fun String.removeFirstLastChar(): String =  this.substring(1, this.length - 1)
+
+    fun String.removeFirstLastChar(): String = this.substring(1, this.length - 1)
 
     fun String.toGenerateColorsURLImage(): ImageUrlColorsGenerate {
-    var colorGenerate=0
-        lifecycleScope.launch{
+        var colorGenerate = 0
+        lifecycleScope.launch {
             val loader = ImageLoader(baseContext)
             val request = ImageRequest.Builder(baseContext)
                 .data(this)
@@ -269,9 +273,9 @@ class MainActivity : AppCompatActivity() {
 
             val result = (loader.execute(request) as SuccessResult).drawable
             val imageSelected = (result as BitmapDrawable).bitmap
-            val color= createPaletteSync(imageSelected).vibrantSwatch
+            val color = createPaletteSync(imageSelected).vibrantSwatch
 
-            colorGenerate= (color?.rgb ?: ContextCompat.getColor(
+            colorGenerate = (color?.rgb ?: ContextCompat.getColor(
                 baseContext,
                 R.color.purple_200
             ))
@@ -293,8 +297,6 @@ class MainActivity : AppCompatActivity() {
 //        val disposable = loader.enqueue(req)
 
 
-
-
         return ImageUrlColorsGenerate(
             imageUrl = this,
             colorGenerate = colorGenerate
@@ -309,7 +311,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupData() {
 
         //GET LIST WITH COLORS
-        imageListGenerate= getListWithColors().toMutableList()
+        imageListGenerate = getListWithColors().toMutableList()
 
 //        questionListingsDto.map { it.toQuestionListing() }
 //        imagesList.addAll(links.map { imageData -> imageData })
