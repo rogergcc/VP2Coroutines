@@ -19,3 +19,11 @@
 ### helps
 Android Material Component: Toolbar vs DisplayCutou
 https://www.waseefakhtar.com/android/android-material-component-toolbar-vs-displaycutout/
+
+color palette of an image with Coil in Android
+https://www.johanneskueber.com/posts/android_coil_palette/
+
+
+https://www.dota2.com/heroes
+
+https://github.com/Den-dp/dota2-heroes/blob/master/src/dota2-heroes.json
