@@ -54,7 +54,7 @@ class RemoteSliderAdapter(
                 transformations(
                     PaletteTransformation { palette ->
                         val swatch = palette.vibrantSwatch
-                        Log.d("RemoteAdapter", palette.vibrantSwatch?.rgb.toString())
+                        Log.d(TAG,"palette vibrantSwatch color: "+palette.vibrantSwatch?.rgb.toString())
                         if (swatch != null) {
                             itemView.setBackgroundColor(
                                 palette.vibrantSwatch?.rgb ?: ContextCompat.getColor(
@@ -77,5 +77,9 @@ class RemoteSliderAdapter(
 
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "RemoteSliderAdapter"
     }
 }

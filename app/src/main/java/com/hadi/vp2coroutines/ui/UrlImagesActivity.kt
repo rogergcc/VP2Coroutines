@@ -19,12 +19,10 @@ import com.hadi.vp2coroutines.utils.autoScroll
 import com.hadi.vp2coroutines.utils.getColorsFromUrlImage
 import com.hadi.vp2coroutines.utils.hideSystemUIAndNavigation
 import com.hadi.vp2coroutines.utils.setCarouselEffects
-import com.hadi.vp2coroutines.utils.toGenerateColorsURLImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.IOException
 import java.util.Locale
 
 class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
@@ -48,40 +46,18 @@ class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
             R.dimen.item_decoration
         )
         setupCarouselSlider()
-        generateNamesFromUrl()
+
+        imagesList= generateNamesFromUrl().toMutableList()
 
         sliderAdapter.submitList(imagesList)
     }
 
-    private fun generateNamesFromUrl() {
-        val dotaNameParser = dota2HeroesName.map {
+    private fun generateNamesFromUrl(): List<String> {
+        return dota2HeroesName.map {
             val nameParse = it.replace(" ", "_").toLowerCase(Locale.getDefault())
-            val urlImage =
-                "https://cdn.cloudflare.steamstatic.com/apps/dota2/videos/dota_react/heroes/renders/${nameParse}.png"
-            urlImage
-        }.toMutableList()
-        imagesList.addAll(dotaNameParser)
-
-    }
-
-
-    private fun generateNewListWithColors() {
-        Log.d(TAG, "M=>$imagesList")
-        imagesList.forEach { imageData ->
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val imageUrlColorsGenerate = imageData.toGenerateColorsURLImage(baseContext)
-                    withContext(Dispatchers.Main) {
-                        imageListGenerate.add(imageUrlColorsGenerate)
-                        Log.d(TAG, "O=>$imageUrlColorsGenerate")
-                    }
-                } catch (e: IOException) {
-                    Log.e("Error: ", e.message.toString())
-                }
-            }
+            "https://cdn.cloudflare.steamstatic.com/apps/dota2/videos/dota_react/heroes/renders/${nameParse}.png"
         }
     }
-
 
     //region REGION FULL SCREEN WAY
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -91,11 +67,10 @@ class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
             adjustToolbarMarginForNotch()
         }
     }
-
-
     //endregion
 
     private fun setupCarouselSlider() {
+
         binding.viewpager.apply {
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
             adapter = sliderAdapter
@@ -128,9 +103,6 @@ class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
                     val currentImage = imagesList[position]
 //                    Log.d("UrlImagesActivity", "imageListGenerate $imageListGenerate")
                     binding.imageContainerBlur.load(currentImage) {
-
-//                        transformations(BlurTransformation(context, radius = 24f, sampling = 2f))
-
                         transformations(
                             BlurTransformation(context, radius = 24f, sampling = 2f),
                             PaletteTransformation { palette: Palette ->
@@ -166,14 +138,17 @@ class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
 
     private fun updateBackgroundColor2(position: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            val currentImage = imagesList[position]
-            val imageUrlColorsGenerate = currentImage.getColorsFromUrlImage(this@UrlImagesActivity)
+            val colorGenerate = fetchBackgroundColor(position)
             withContext(Dispatchers.Main) {
-                binding.containerConstraint.setBackgroundColor(imageUrlColorsGenerate.colorGenerate)
+                binding.containerConstraint.setBackgroundColor(colorGenerate)
             }
         }
     }
-
+    private suspend fun fetchBackgroundColor(position: Int): Int {
+        val currentImage = imagesList[position]
+        val imageUrlColorsGenerate = currentImage.getColorsFromUrlImage(this@UrlImagesActivity)
+        return imageUrlColorsGenerate.colorGenerate
+    }
     companion object {
         const val TAG = "UrlImagesActivity"
     }
