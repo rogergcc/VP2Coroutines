@@ -117,3 +117,18 @@ suspend fun String.toGenerateColorsURLImage(context: Context): ImageUrlColorsGen
 //        }
 //    }
 //}
+
+
+//private fun updateBackgroundColor2(position: Int) {
+//    CoroutineScope(Dispatchers.IO).launch {
+//        val colorGenerate = fetchBackgroundColor(position)
+//        withContext(Dispatchers.Main) {
+//            binding.containerConstraint.setBackgroundColor(colorGenerate)
+//        }
+//    }
+//}
+//private suspend fun fetchBackgroundColor(position: Int): Int {
+//    val currentImage = imagesList[position]
+//    val imageUrlColorsGenerate = currentImage.getColorsFromUrlImage(this@UrlImagesActivity)
+//    return imageUrlColorsGenerate.colorGenerate
+//}

@@ -16,13 +16,8 @@ import com.hadi.vp2coroutines.utils.HorizontalMarginItemDecoration
 import com.hadi.vp2coroutines.utils.PaletteTransformation
 import com.hadi.vp2coroutines.utils.adjustToolbarMarginForNotch
 import com.hadi.vp2coroutines.utils.autoScroll
-import com.hadi.vp2coroutines.utils.getColorsFromUrlImage
 import com.hadi.vp2coroutines.utils.hideSystemUIAndNavigation
 import com.hadi.vp2coroutines.utils.setCarouselEffects
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.Locale
 
 class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
@@ -47,7 +42,7 @@ class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
         )
         setupCarouselSlider()
 
-        imagesList= generateNamesFromUrl().toMutableList()
+        imagesList = generateNamesFromUrl().toMutableList()
 
         sliderAdapter.submitList(imagesList)
     }
@@ -126,7 +121,6 @@ class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
 
         }
 
-
     }
 
     private fun updateBackgroundColor(position: Int) {
@@ -136,19 +130,7 @@ class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
         }
     }
 
-    private fun updateBackgroundColor2(position: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val colorGenerate = fetchBackgroundColor(position)
-            withContext(Dispatchers.Main) {
-                binding.containerConstraint.setBackgroundColor(colorGenerate)
-            }
-        }
-    }
-    private suspend fun fetchBackgroundColor(position: Int): Int {
-        val currentImage = imagesList[position]
-        val imageUrlColorsGenerate = currentImage.getColorsFromUrlImage(this@UrlImagesActivity)
-        return imageUrlColorsGenerate.colorGenerate
-    }
+
     companion object {
         const val TAG = "UrlImagesActivity"
     }

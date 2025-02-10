@@ -1,18 +1,13 @@
 package com.hadi.vp2coroutines.ui
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
-import coil.bitmap.BitmapPool
 import coil.load
 import coil.size.Scale
-import coil.size.Size
-import coil.transform.Transformation
 import com.hadi.vp2coroutines.R
 import com.hadi.vp2coroutines.databinding.ItemSliderBinding
 import com.hadi.vp2coroutines.utils.PaletteTransformation
@@ -53,16 +48,15 @@ class RemoteSliderAdapter(
             binding.ivSlider.load(url) {
                 transformations(
                     PaletteTransformation { palette ->
-                        val swatch = palette.vibrantSwatch
-                        Log.d(TAG,"palette vibrantSwatch color: "+palette.vibrantSwatch?.rgb.toString())
-                        if (swatch != null) {
-                            itemView.setBackgroundColor(
-                                palette.vibrantSwatch?.rgb ?: ContextCompat.getColor(
-                                    itemView.context,
-                                    R.color.purple_200
-                                )
-                            )
-                        }
+                        val colorVibrant = palette.vibrantSwatch?.rgb ?: ContextCompat.getColor(
+                            itemView.context,
+                            R.color.purple_200
+                        )
+
+                        Log.d(TAG, "palette colorVibrant color: $colorVibrant")
+                        itemView.setBackgroundColor(
+                            colorVibrant
+                        )
                     }
                 )
                 crossfade(true)
