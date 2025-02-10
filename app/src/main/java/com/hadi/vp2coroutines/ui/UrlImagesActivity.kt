@@ -79,21 +79,15 @@ class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
                     positionOffsetPixels: Int,
                 ) {
                     super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                    //                countTxtView.setText(String.format(Locale.ENGLISH,"%d/%d", position+1, matchCourseList.size()));
-//                    val currentImage = imagesList[position]
-//                    binding.imageContainerBlur.load(currentImage) {
-//                        transformations(BlurTransformation(context, radius = 24f, sampling = 2f))
-//                    }
-                    val progress =
-                        (position + positionOffset) / (binding.viewpager.adapter?.itemCount ?: 1)
-//                    progressBar.progress = (progress * 100).toInt()
+                    val progress = (position + positionOffset) /
+                            (binding.viewpager.adapter?.itemCount ?: 1)
                     Log.d(TAG, "onPageScrolled progress : $progress")
                 }
 
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
 
-                    updateBackgroundColor(position)
+//                    updateBackgroundColor(position)
 //                    updateBackgroundColor2(position)
                     val currentImage = imagesList[position]
 //                    Log.d("UrlImagesActivity", "imageListGenerate $imageListGenerate")
@@ -123,12 +117,12 @@ class UrlImagesActivity : AppCompatActivity(R.layout.activity_url_images) {
 
     }
 
-    private fun updateBackgroundColor(position: Int) {
-        if (imageListGenerate.isNotEmpty()) {
-            val colorGenerate = imageListGenerate[position].colorGenerate
-            binding.containerConstraint.setBackgroundColor(colorGenerate)
-        }
-    }
+//    private fun updateBackgroundColor(position: Int) {
+//        if (imageListGenerate.isNotEmpty()) {
+//            val colorGenerate = imageListGenerate[position].colorGenerate
+//            binding.containerConstraint.setBackgroundColor(colorGenerate)
+//        }
+//    }
 
 
     companion object {
