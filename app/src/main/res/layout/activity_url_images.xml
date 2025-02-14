@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/containerConstraint"
     android:background="@color/lbl_value"
-    tools:context=".ui.UrlImagesActivity">
+    tools:context=".ui.remote.UrlImagesActivity">
     <ImageView
         android:id="@+id/imageContainerBlur"
         android:layout_width="0dp"

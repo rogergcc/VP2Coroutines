@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VP2Coroutines">
         <activity
-            android:name=".ui.UrlImagesActivity"
+            android:name=".ui.remote.UrlImagesActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

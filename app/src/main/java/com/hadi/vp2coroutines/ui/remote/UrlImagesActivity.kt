@@ -1,4 +1,4 @@
-package com.hadi.vp2coroutines.ui
+package com.hadi.vp2coroutines.ui.remote
 
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +12,7 @@ import coil.transform.BlurTransformation
 import com.hadi.vp2coroutines.R
 import com.hadi.vp2coroutines.data.dota2HeroesName
 import com.hadi.vp2coroutines.databinding.ActivityUrlImagesBinding
+import com.hadi.vp2coroutines.ui.models.ImageUrlColorsGenerate
 import com.hadi.vp2coroutines.utils.HorizontalMarginItemDecoration
 import com.hadi.vp2coroutines.utils.PaletteTransformation
 import com.hadi.vp2coroutines.utils.adjustToolbarMarginForNotch

@@ -1,4 +1,4 @@
-package com.hadi.vp2coroutines.ui
+package com.hadi.vp2coroutines.ui.cache
 
 import android.content.Context
 import android.view.LayoutInflater

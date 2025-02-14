@@ -97,3 +97,4 @@ fun ViewPager2.setCarouselEffects(){
 
     setPageTransformer(pageTransformer)
 }
+

@@ -17,13 +17,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.hadi.vp2coroutines.R
-import com.hadi.vp2coroutines.ui.ImageUrlColorsGenerate
-import com.hadi.vp2coroutines.ui.UrlImagesActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.IOException
+import com.hadi.vp2coroutines.ui.models.ImageUrlColorsGenerate
 
 private const val TAG = "ImageUtils"
 suspend fun uriToBitmap(context: Context, uri: Uri?): Bitmap {
